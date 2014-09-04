@@ -6,7 +6,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object Dependencies{
-  val braingamesVersion = "5.0.6-SNAPSHOT"
+  val braingamesVersion = "6.6.4-SNAPSHOT"
 
   val braingamesDataStore = "com.scalableminds" %% "braingames-datastore" % braingamesVersion
 }
@@ -31,9 +31,9 @@ object ApplicationBuild extends Build {
   )
 
   lazy val standaloneDatastore: Project = play.Project(
-    "standalone-datastore", 
-    braingamesVersion, 
-    dependencies = Seq(braingamesDataStore), 
+    "standalone-datastore",
+    braingamesVersion,
+    dependencies = Seq(braingamesDataStore),
     settings = datastoreSettings)
 }
 
