@@ -1,12 +1,13 @@
 import sbt._
 import sbt.Keys._
-import play.Project._
+import play.Play.autoImport._
+import PlayKeys._
 import sbt.Task
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object Dependencies{
-  val braingamesVersion = "5.0.6-SNAPSHOT"
+  val braingamesVersion = "6.9.16-master-fix"
 
   val braingamesDataStore = "com.scalableminds" %% "braingames-datastore" % braingamesVersion
 }
@@ -21,19 +22,13 @@ object ApplicationBuild extends Build {
   import Dependencies._
   import Resolvers._
 
-  lazy val datastoreSettings = Seq(
-    scalaVersion := "2.10.2",
-      resolvers ++= Seq(
-      scmRel,
-      scmIntRel,
-      scmIntSnaps
+  lazy val standaloneDatastore = Project("standalone-datastore", file("."))
+    .enablePlugins(play.PlayScala)
+    .settings(
+      version := braingamesVersion, 
+      libraryDependencies += braingamesDataStore, 
+      scalaVersion := "2.10.2",
+      resolvers ++= Seq(scmRel, scmIntRel, scmIntSnaps)
     )
-  )
-
-  lazy val standaloneDatastore: Project = play.Project(
-    "standalone-datastore", 
-    braingamesVersion, 
-    dependencies = Seq(braingamesDataStore), 
-    settings = datastoreSettings)
 }
 
