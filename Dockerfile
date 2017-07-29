@@ -1,15 +1,15 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:8-jre
 
-RUN apk --no-cache add bash \
-  && mkdir -p /srv/webknossos-datastore \
-  && adduser -H -D webknossos webknossos \
+RUN mkdir -p /srv/webknossos-datastore \
+  && groupadd -r webknossos \
+  && useradd -r -g webknossos webknossos \
   && cd /srv/webknossos-datastore \
   && mkdir disk \
   && chown -R webknossos .
 
 WORKDIR /srv/webknossos-datastore
 
-VOLUME /srv/webknossos-datastore/binaryData /srv/webknossos-datastore/userBinaryData 
+VOLUME /srv/webknossos-datastore/binaryData /srv/webknossos-datastore/userBinaryData /srv/webknossos-datastore/tracingData
 
 COPY target/universal/stage .
 
