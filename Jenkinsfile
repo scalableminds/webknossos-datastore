@@ -19,7 +19,7 @@ ansiColor('xterm') {
         env.COMPOSE_PROJECT_NAME = "webknossos_datastore_${env.BRANCH_NAME}_${commit}"
         env.SBT_VERSION_TAG = "sbt-0.13.9_mongo-3.2.1_node-7.x_jdk-8"
         sh "mkdir -p ${env.DOCKER_CACHE_PREFIX}"
-        sh "docker-compose pull scalableminds/sbt:$SBT_VERSION_TAG"
+        sh "docker-compose pull sbt"
       }
 
 
