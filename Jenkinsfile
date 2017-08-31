@@ -1,6 +1,6 @@
 @Library('jenkins-library@master')
 
-wrap("scalableminds/webknossos-datastore") {
+wrap(repo: "scalableminds/webknossos-datastore") {
   stage("Prepare") {
 
     sh "sudo /var/lib/jenkins/fix_workspace.sh webknossos-datastore"
