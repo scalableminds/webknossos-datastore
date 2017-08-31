@@ -33,7 +33,7 @@ ansiColor('xterm') {
         sh """
           DOCKER_TAG=${env.BRANCH_NAME}__${env.BUILD_NUMBER} docker-compose up webknossos-datastore &
           sleep 10
-          curl http://localhost:9090/
+          curl -v http://localhost:9090/data/health
           docker-compose down --volumes --remove-orphans
         """
       }
