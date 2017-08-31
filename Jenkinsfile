@@ -5,7 +5,7 @@ wrap(repo: "scalableminds/webknossos-datastore") {
   env.SBT_VERSION_TAG = "sbt-0.13.9_mongo-3.2.1_node-7.x_jdk-8"
   
   stage("Prepare") {
-    sh "sudo /var/lib/jenkins/fix_workspace.sh webknossos-datastore"
+    // sh "sudo /var/lib/jenkins/fix_workspace.sh webknossos-datastore"
 
     checkout scm
 
