@@ -1,6 +1,6 @@
 @Library('jenkins-library@master') _
 
-wrap(repo: "scalableminds/webknossos-datastore", buildImage: "scalableminds/jenkins-workspace:4") {
+wrap(repo: "scalableminds/webknossos-datastore", buildImage: "scalableminds/jenkins-workspace:5") {
   
   env.SBT_VERSION_TAG = "sbt-0.13.9_mongo-3.2.1_node-7.x_jdk-8"
   
