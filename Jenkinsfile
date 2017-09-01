@@ -11,6 +11,7 @@ wrap(repo: "scalableminds/webknossos-datastore", buildImage: "scalableminds/jenk
 
     env.DOCKER_CACHE_PREFIX = "~/.webknossos-datastore-build-cache"
     env.COMPOSE_PROJECT_NAME = "webknossos_datastore_${env.BRANCH_NAME}_${gitCommit()}"
+    env.DOCKER_HOST = 'tcp://localhost:2375'
     sh "mkdir -p ${env.DOCKER_CACHE_PREFIX}"
     sh "docker-compose pull sbt"
   }
