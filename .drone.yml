@@ -1,13 +1,21 @@
 pipeline:
   build:
-    image: sbt-0.13.9_mongo-3.2.1_node-7.x_jdk-8
+    image: scalableminds/sbt-0.13.9_mongo-3.2.1_node-7.x_jdk-8
     commands:
       - sbt clean compile stage
+
+  # test:
+  #   image: scalableminds/jenkins-workspace:5
+  #   commands:
+  #     - DOCKER_TAG=${env.BRANCH_NAME}__${env.BUILD_NUMBER} docker-compose up webknossos-datastore &
+  #     - sleep 10
+  #     - curl -v http://localhost:9090/data/health
+  #     - docker-compose down --volumes --remove-orphans
 
   publish:
     image: plugins/docker
     repo: scalableminds/webknossos-datastore
-    tags: [ dronez, dronez__${DRONE_BUILD_NUMBER} ]
+    tags: [ dronez, "dronez__${DRONE_BUILD_NUMBER}" ]
     registry: index.docker.io
     secrets: [ docker_username, docker_password ]
 
