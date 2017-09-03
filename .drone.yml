@@ -1,0 +1,18 @@
+pipeline:
+  build:
+    image: sbt-0.13.9_mongo-3.2.1_node-7.x_jdk-8
+    commands:
+      - sbt clean compile stage
+
+  publish:
+    image: plugins/docker
+    repo: scalableminds/webknossos-datastore
+    tags: [ dronez, dronez__${DRONE_BUILD_NUMBER} ]
+    registry: index.docker.io
+    secrets: [ docker_username, docker_password ]
+
+  notify:
+    image: plugins/slack
+    channel: webknossos-bots
+    username: drone
+    secrets: [ slack_webhook ]
