@@ -4,7 +4,7 @@ wrap(repo: "scalableminds/webknossos-datastore") {
 
   def buildContainer = docker.image("scalableminds/jenkins-workspace:5")
   buildContainer.pull()
-  buildContainer.inside("-v /var/run/docker.sock:/var/run/docker.sock -v ~/.webknossos-datastore-build-cache:/tmp/cache") {
+  buildContainer.inside("-v /var/run/docker.sock:/var/run/docker.sock -v ${env.HOME}/.webknossos-datastore-build-cache:/tmp/cache") {
 
     env.SBT_VERSION_TAG = "sbt-0.13.9_mongo-3.2.1_node-7.x_jdk-8"
     
