@@ -26,7 +26,7 @@ wrap(repo: "scalableminds/webknossos-datastore") {
     sh """
       DOCKER_TAG=${env.BRANCH_NAME}__${env.BUILD_NUMBER} docker-compose up webknossos-datastore &
       sleep 10
-      curl -v http://localhost:9090/data/health
+      curl --retry 3 --max-time 15 -v http://localhost:9090/data/health
       docker-compose down --volumes --remove-orphans
     """
   }
