@@ -8,11 +8,17 @@ services:
 
   sbt:
     image: scalableminds/sbt:$SBT_VERSION_TAG
+    environment:
+      - USER_NAME
+      - USER_UID
+      - USER_GID
+      - TZ
+    working_dir: /home/$USER/webknossos
     volumes:
-      - ".:/project"
-      - "${DOCKER_CACHE_PREFIX:-~}/.m2:/root/.m2"
-      - "${DOCKER_CACHE_PREFIX:-~}/.ivy2:/root/.ivy2"
-      - "${DOCKER_CACHE_PREFIX:-~}/.sbt:/root/.sbt"
+      - ".:/home/$USER/webknossos"
+      - "${DOCKER_CACHE_PREFIX:-~}/.m2:/home/$USER/.m2"
+      - "${DOCKER_CACHE_PREFIX:-~}/.ivy2:/home/$USER/.ivy2"
+      - "${DOCKER_CACHE_PREFIX:-~}/.sbt:/home/$USER/.sbt"
 
   dev:
     extends:
@@ -21,12 +27,11 @@ services:
       - "9090:9090"
       - "5005:5005"
     command: >
-      bash -c
-      "sbt -v -d -jvm-debug 5005 \"run
+      sbt -v -d -jvm-debug 5005 "run
       -Djava.net.preferIPv4Stack=true
       -Dhttp.address=0.0.0.0
       -Dhttp.port=$${PORT}
-      \""
+      "
     environment:
       - PORT=9090
     stdin_open: true
@@ -35,9 +40,8 @@ services:
     extends:
       service: dev
     command: >
-      bash -c
-      "sbt -v -d -jvm-debug 5005 \"testProd
+      sbt -v -d -jvm-debug 5005 "testProd
       -Djava.net.preferIPv4Stack=true
       -Dhttp.address=0.0.0.0
       -Dhttp.port=$${PORT}
-      \""
+      "
