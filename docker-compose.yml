@@ -6,7 +6,7 @@ services:
     ports:
       - "9090:9090"
 
-  sbt:
+  base:
     image: scalableminds/sbt:$SBT_VERSION_TAG
     environment:
       - USER_NAME
@@ -22,7 +22,7 @@ services:
 
   dev:
     extends:
-      service: sbt
+      service: base
     ports:
       - "9090:9090"
       - "5005:5005"
