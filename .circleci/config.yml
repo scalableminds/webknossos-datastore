@@ -14,18 +14,18 @@ jobs:
           name: Pull sbt docker image
           command: docker pull scalableminds/sbt:$SBT_VERSION_TAG
       - run:
-          name: Prepare cache folders
+          name: Prepare dependency folders
           command: mkdir -p ~/.m2 ~/.ivy2 ~/.sbt ~/.yarn-cache
       - restore_cache:
           keys:
-            - cache-v{{ .Environment.CACHE_VERSION }}-{{ .Branch }}
-            - cache-v{{ .Environment.CACHE_VERSION }}-master
+            - cache-v{{ checksum ".circleci/cache_version" }}-{{ .Branch }}
+            - cache-v{{ checksum ".circleci/cache_version" }}-master
       - run:
           name: Build code (sbt)
           command: docker-compose run base sbt clean compile stage
 
       - save_cache:
-          key: cache-v{{ .Environment.CACHE_VERSION }}-{{ .Branch }}
+          key: cache-v{{ checksum ".circleci/cache_version" }}-{{ .Branch }}
           paths:
             - "~/.m2"
             - "~/.ivy2"
@@ -34,7 +34,7 @@ jobs:
 
       - run:
           name: Build docker image
-          command: docker build --no-cache --pull -t scalableminds/webknossos-datastore:${CIRCLE_BRANCH}__${CIRCLE_BUILD_NUM} .
+          command: docker build --pull -t scalableminds/webknossos-datastore:${CIRCLE_BRANCH}__${CIRCLE_BUILD_NUM} .
       - run:
           name: Run smoke test
           command: |
