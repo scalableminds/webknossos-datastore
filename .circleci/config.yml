@@ -13,13 +13,13 @@ jobs:
       - run:
           name: Pull sbt docker image
           command: docker pull scalableminds/sbt:$SBT_VERSION_TAG
+      - run:
+          name: Prepare cache folders
+          command: mkdir ~/.m2 ~/.ivy2 ~/.sbt ~/.yarn-cache
       - restore_cache:
           keys:
             - cache-v{{ .Environment.CACHE_VERSION }}-{{ .Branch }}
             - cache-v{{ .Environment.CACHE_VERSION }}-master
-      - run: &fix-permissions
-          name: Fix folder permissions
-          command: sudo chown -R circleci:circleci ~
       - run:
           name: Build code (sbt)
           command: docker-compose run base sbt clean compile stage
