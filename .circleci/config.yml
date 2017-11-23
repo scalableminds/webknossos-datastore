@@ -18,14 +18,14 @@ jobs:
           command: mkdir -p ~/.m2 ~/.ivy2 ~/.sbt ~/.yarn-cache
       - restore_cache:
           keys:
-            - cache-v{{ checksum ".circleci/cache_version" }}-{{ .Branch }}
-            - cache-v{{ checksum ".circleci/cache_version" }}-master
+            - cache-{{ checksum ".circleci/cache_version" }}-{{ .Branch }}
+            - cache-{{ checksum ".circleci/cache_version" }}-master
       - run:
           name: Build code (sbt)
           command: docker-compose run base sbt clean compile stage
 
       - save_cache:
-          key: cache-v{{ checksum ".circleci/cache_version" }}-{{ .Branch }}
+          key: cache-{{ checksum ".circleci/cache_version" }}-{{ .Branch }}
           paths:
             - "~/.m2"
             - "~/.ivy2"
