@@ -15,7 +15,7 @@ jobs:
           command: docker pull scalableminds/sbt:$SBT_VERSION_TAG
       - run:
           name: Prepare cache folders
-          command: mkdir ~/.m2 ~/.ivy2 ~/.sbt ~/.yarn-cache
+          command: mkdir -p ~/.m2 ~/.ivy2 ~/.sbt ~/.yarn-cache
       - restore_cache:
           keys:
             - cache-v{{ .Environment.CACHE_VERSION }}-{{ .Branch }}
