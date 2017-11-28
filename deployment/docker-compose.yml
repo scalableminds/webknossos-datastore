@@ -1,0 +1,53 @@
+version: '2.1'
+
+services:
+  webknossos-datastore:
+    image: scalableminds/webknossos-datastore:${DATASTORE_TAG}
+    entrypoint: bin/standalone-datastore
+    command:
+      - -J-Xmx20G
+      - -J-Xms1G
+      - -J-XX:+UseG1GC
+      - -jvm-debug
+      - "5011"
+      - -J-javaagent:lib/com.newrelic.agent.java.newrelic-agent-3.44.1.jar
+      - -J-Dnewrelic.config.file=conf/newrelic.yml
+      - -Dlogback.configurationFile=conf/logback-docker.xml
+      - -Dlogger.file=conf/logback-docker.xml
+      - -Dconfig.file=conf/docker.conf
+    links:
+      - fossildb
+    ports:
+      - $DATASTORE_PORT:9090
+      - $DATASTORE_DEBUG_PORT:5011
+    user: $USER_UID:$USER_GID
+    group_add:
+      - $USER_GROUP_1
+      - $USER_GROUP_2
+      - $USER_GROUP_3
+    volumes:
+      - $BINARY_DATA_PATH:/srv/webknossos-datastore/binaryData
+      - ./backup:/srv/webknossos-datastore/backup # TODO --> fossildb/backup
+      - ./tracingData:/srv/webknossos-datastore/tracingData  # TODO --> fossildb/data
+      - ./tmp:/tmp
+      - ./config/docker.conf:/srv/webknossos-datastore/conf/docker.conf
+    environment:
+      - NEW_RELIC_LICENSE_KEY
+      - NEW_RELIC_APP_NAME
+
+  fossildb:
+    image: scalableminds/fossildb:${FOSSILDB_TAG}
+    command:
+      - fossildb
+      - -c
+      - default
+    ports:
+      - $FOSSILDB_PORT:7155
+    user: $USER_UID:$USER_GID
+    group_add:
+      - $USER_GROUP_1
+      - $USER_GROUP_2
+      - $USER_GROUP_3
+    volumes:
+      - "./fossildb/data:/fossildb/data"
+      - "./fossildb/backup:/fossildb/backup"
