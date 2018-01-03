@@ -1,10 +1,4 @@
 # webknossos-datastore
-Datastore component for webKnossos intended for deployment on storage servers.
+THIS REPO IS DEPRECATED.
 
-Image stack datasets can be converted for webKnossos with the [webknossos-cuber utility](https://github.com/scalableminds/webknossos-cuber).
-
-## Deploy webknossos-datastore with Docker
-see [deployment](deployment/README.md)
-
-## License
-AGPLv3
+The `webknossos-datastore` is now integrated in the main [webKnossos repo](https://github.com/scalableminds/webknossos/).
